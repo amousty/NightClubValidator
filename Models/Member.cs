@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -15,9 +16,11 @@ namespace NightClubValidator.Models
         // https://www.twilio.com/blog/validating-phone-numbers-effectively-with-c-and-the-net-frameworks
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
+        [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
-        public IdCard IdCard { get; set; }
-        public List<CardMember> CardMembers { get; set; }
+        [ForeignKey("id")]
+        public virtual IdCard IdCard { get; set; }
+        public virtual List<CardMember> CardMembers { get; set; }
 
 
         public Member() { }
@@ -48,8 +51,7 @@ namespace NightClubValidator.Models
             {
                 if (GetAge() < 120 && GetAge() >= 18)
                 {
-                    int idCardStatus = IdCard.IsValidIdCard();
-                    return idCardStatus;
+                    return 200;
                 }
                 else
                 {
