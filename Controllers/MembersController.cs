@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,45 +69,46 @@ namespace NightClubValidator.Controllers
             {
                 return BadRequest();
             }
-
-            IdCardsController idCardsController = new IdCardsController(_context);
-            if (!idCardsController.IdCardExists(member.IdCard.NationalId))
+            // Login and phone number are unique. 
+            if (!_context.Members.Any(m => (m.EmailAddress == member.EmailAddress || member.PhoneNumber == m.PhoneNumber) && m.MemberId != id))
             {
-                // When a member is modified, it's only the member data. Nor the IdCard or the MemberCard. -> could be made different but develop choice
-                Member oldMemberData = await _context.Members
-                .Include(i => i.IdCard)
-                .Include(c => c.MemberCards)
-                .Where(c => c.MemberId == id)
-                .FirstOrDefaultAsync(i => i.MemberId == id);
-
-                member.IdCard = oldMemberData.IdCard;
-                member.MemberCards = oldMemberData.MemberCards;
-
-                _context.Entry(member).State = EntityState.Modified;
-
-                try
+                if (member.IsValidUser())
                 {
-                    await _context.SaveChangesAsync();
+                    // When a member is modified, it's only the member data. Nor the IdCard or the MemberCard. -> could be made different but develop choice
+                    dynamic oldMemberData = CreatedAtAction("GetMember", new { id = member.MemberId }, member).Value;
+
+                    member.IdCard = oldMemberData.IdCard;
+                    member.MemberCards = oldMemberData.MemberCards;
+
+                    _context.Entry(member).State = EntityState.Modified;
+
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!MemberExists(id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!MemberExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return StatusCode(406, "Member not valid.");
                 }
             }
             else
             {
-                return StatusCode(406, "National ID already exist within the database. Operation aborted. ");
+                return StatusCode(406, "Email address and/or phone number incorrect.");
             }
-            
-
-            return NoContent();
         }
 
         // POST: api/Members
@@ -117,30 +119,36 @@ namespace NightClubValidator.Controllers
         {
             try
             {
-                IdCard idCard = member.IdCard;
-                // Ensure data are correct
-                if (member.IsValidUser() &&  idCard.CardIsValid())
+                if (!_context.Members.Any(m => (m.EmailAddress == member.EmailAddress || member.PhoneNumber == m.PhoneNumber) && m.MemberId != member.MemberId))
                 {
-                    IdCardsController idCardsController = new IdCardsController(_context);
-                    if (!idCardsController.IdCardExists(member.IdCard.NationalId))
+                    IdCard idCard = member.IdCard;
+                    // Ensure data are correct
+                    if (member.IsValidUser() && idCard.CardIsValid())
                     {
-                        _context.Members.Add(member);
-                        await _context.SaveChangesAsync();
+                        IdCardsController idCardsController = new IdCardsController(_context);
+                        if (!idCardsController.IdCardExists(member.IdCard.NationalId))
+                        {
+                            _context.Members.Add(member);
+                            await _context.SaveChangesAsync();
 
-                        return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+                            return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+                        }
+                        else
+                        {
+                            return StatusCode(406, "National ID already exist within the database. Operation aborted. ");
+                        }
+
+
                     }
                     else
                     {
-                        return StatusCode(406, "National ID already exist within the database. Operation aborted. ");
+                        return StatusCode(406, "Data not valid. Please check it.");
                     }
-
-                    
                 }
                 else
                 {
-                    return StatusCode(406, "Data aren't valid. Please check it.");
+                    return StatusCode(406, "Email address and/or phone number incorrect.");
                 }
-
             }
             catch (Exception)
             {
@@ -170,7 +178,7 @@ namespace NightClubValidator.Controllers
             {
                 _context.MemberCards.Remove(memberCardToDelete);
             }
-            
+
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
 

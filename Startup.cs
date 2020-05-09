@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using NightClubValidator.Models;
 using System;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using NightClubValidator.Middleware;
 
 namespace NightClubValidator
 {

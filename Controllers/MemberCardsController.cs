@@ -55,27 +55,36 @@ namespace NightClubValidator.Controllers
                 return BadRequest();
             }
 
-            // Auto blacklist if not matching the conditions
-            MemberCards.IsDeactivated = DateHelper.IsDateExpired(MemberCards.ExpiryCardDate) ? true : false;
-            MemberCards.IsBlacklist = !DateHelper.IsDateExpired(MemberCards.BlacklistEndDate) && !MemberCards.IsDeactivated ? false : true; 
-            
-            _context.Entry(MemberCards).State = EntityState.Modified;
+            if (!DateHelper.IsDateExpired(MemberCards.ExpiryCardDate) && DateHelper.IsDateExpired(MemberCards.CreationCardDate))
+            {
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException)
-            {
-                if (!MemberCardsExists(id))
+                // Auto blacklist if not matching the conditions
+                MemberCards.IsDeactivated = DateHelper.IsDateExpired(MemberCards.ExpiryCardDate) ? true : false;
+                MemberCards.IsBlacklist = !DateHelper.IsDateExpired(MemberCards.BlacklistEndDate) && !MemberCards.IsDeactivated ? false : true;
+
+                _context.Entry(MemberCards).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!MemberCardsExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
+            else
+            {
+                return StatusCode(406, "Please check the dates.");
+            }
+
 
             return NoContent();
         }
@@ -88,9 +97,9 @@ namespace NightClubValidator.Controllers
         {
             // Part 1 : Get all previous card for same member
             List<MemberCard> MemberCardsListWithSameMember = _context.MemberCards.ToList().Where(
-                c => 
-                    c.MemberId == MemberCards.MemberId 
-                    && !c.IsBlacklist 
+                c =>
+                    c.MemberId == MemberCards.MemberId
+                    && !c.IsBlacklist
                     && !c.IsDeactivated
                 ).ToList();
 
@@ -99,11 +108,13 @@ namespace NightClubValidator.Controllers
             {
                 // Deactivate account for old one
                 MemberCardsToDeactivate.IsDeactivated = true;
+                MemberCardsToDeactivate.ExpiryCardDate = DateTime.Now;
                 _context.Entry(MemberCardsToDeactivate).State = EntityState.Modified;
             }
 
             // Part 3 : Add new member card
             _context.MemberCards.Add(MemberCards);
+
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMemberCards", new { id = MemberCards.MemberCardId }, MemberCards);
@@ -118,7 +129,7 @@ namespace NightClubValidator.Controllers
             {
                 return NotFound();
             }
-            
+
             _context.MemberCards.Remove(MemberCards);
             await _context.SaveChangesAsync();
             return MemberCards;

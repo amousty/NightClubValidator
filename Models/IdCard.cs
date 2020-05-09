@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NightClubValidator.Helper;
 using NightClubValidator.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,10 @@ namespace NightClubValidator.Models
             {
                 if (Regex.IsMatch(NationalId, @"\d{2}.\d{2}.\d{2}-\d{3}-\d{2}"))
                 {
-                    return true;
+                    if (!DateHelper.IsDateExpired(ExpiryDate) && DateHelper.IsDateExpired(CreatedOn))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
