@@ -17,7 +17,7 @@ namespace NightClubValidator.Models
 
         public virtual DbSet<IdCard> IdCards { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        public virtual DbSet<CardMember> CardMembers { get; set; }
+        public virtual DbSet<MemberCard> MemberCards { get; set; }
 
     }
 }

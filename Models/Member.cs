@@ -12,19 +12,19 @@ namespace NightClubValidator.Models
     {
         public long MemberId { get; set; }
         [DataType(DataType.EmailAddress)]
-        public string Mail { get; set; }
+        public string EmailAddress { get; set; }
         // https://www.twilio.com/blog/validating-phone-numbers-effectively-with-c-and-the-net-frameworks
         [DataType(DataType.PhoneNumber)]
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
         [DataType(DataType.Date)]
         public DateTime Birthdate { get; set; }
         public IdCard IdCard { get; set; }
-        public ICollection<CardMember> CardMembers { get; set; }
+        public ICollection<MemberCard> MemberCards { get; set; }
 
 
         public Member()
         {
-            CardMembers = new List<CardMember>();
+            MemberCards = new List<MemberCard>();
         }
 
         private double GetAge()
@@ -40,7 +40,7 @@ namespace NightClubValidator.Models
 
         public int IsValidUser()
         {
-            if (string.IsNullOrEmpty(Mail) || !string.IsNullOrEmpty(Phone))
+            if (!string.IsNullOrEmpty(EmailAddress) || !string.IsNullOrEmpty(PhoneNumber))
             {
                 if (GetAge() < 120 && GetAge() >= 18)
                 {

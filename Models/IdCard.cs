@@ -17,7 +17,7 @@ namespace NightClubValidator.Models
         public string NationalId { get; set; }
         public int IdCardId { get; set; } // Not the best name :) 
         public string Name { get; set; }
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreatedOn { get; set; }
         [DataType(DataType.Date)]
@@ -29,7 +29,7 @@ namespace NightClubValidator.Models
 
         public bool CardIsValid()
         {
-            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Firstname))
+            if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(FirstName))
             {
                 if (Regex.IsMatch(NationalId, @"\d{2}.\d{2}.\d{2}-\d{3}-\d{2}"))
                 {

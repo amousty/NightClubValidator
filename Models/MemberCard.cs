@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace NightClubValidator.Models
 {
-    public class CardMember
+    public class MemberCard
     {
-        public long CardMemberId { get; set; }
+        public long MemberCardId { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreationCardDate { get; set; }
         [DataType(DataType.Date)]
@@ -23,7 +23,7 @@ namespace NightClubValidator.Models
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
 
-        public CardMember()
+        public MemberCard()
         {
             CreationCardDate = DateTime.Now;
             ExpiryCardDate = DateTime.Now.AddYears(3);

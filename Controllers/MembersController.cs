@@ -29,15 +29,15 @@ namespace NightClubValidator.Controllers
                 (
                     from member in _context.Members
                     join idCard in _context.IdCards on member.MemberId equals idCard.MemberId
-                    join cardMember in _context.CardMembers on member.MemberId equals cardMember.MemberId
+                    join cardMember in _context.MemberCards on member.MemberId equals cardMember.MemberId
                     select new Member
                     {
                         MemberId = member.MemberId,
-                        Mail = member.Mail,
-                        Phone = member.Phone,
+                        EmailAddress = member.EmailAddress,
+                        PhoneNumber = member.PhoneNumber,
                         Birthdate = member.Birthdate,
                         IdCard = member.IdCard,
-                        CardMembers = member.CardMembers
+                        MemberCards = member.MemberCards
                     }
                 ).ToListAsync();
         }
@@ -48,7 +48,7 @@ namespace NightClubValidator.Controllers
         {
             var member = await _context.Members
                 .Include(i => i.IdCard)
-                .Include(c => c.CardMembers)
+                .Include(c => c.MemberCards)
                 .Where(c => c.MemberId == id)
                 .FirstOrDefaultAsync(i => i.MemberId == id);
 

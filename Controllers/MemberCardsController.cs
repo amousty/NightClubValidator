@@ -13,50 +13,50 @@ namespace NightClubValidator.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardMembersController : ControllerBase
+    public class MemberCardsController : ControllerBase
     {
         private readonly NightClubValidatorContext _context;
 
-        public CardMembersController(NightClubValidatorContext context)
+        public MemberCardsController(NightClubValidatorContext context)
         {
             _context = context;
         }
 
-        // GET: api/CardMembers
+        // GET: api/MemberCards
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CardMember>>> GetCardMember()
+        public async Task<ActionResult<IEnumerable<MemberCard>>> GetMemberCards()
         {
-            return await _context.CardMembers.ToListAsync();
+            return await _context.MemberCards.ToListAsync();
         }
 
-        // GET: api/CardMembers/5
+        // GET: api/MemberCards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CardMember>> GetCardMember(long id)
+        public async Task<ActionResult<MemberCard>> GetMemberCards(long id)
         {
-            var cardMember = await _context.CardMembers.FindAsync(id);
+            var MemberCards = await _context.MemberCards.FindAsync(id);
 
-            if (cardMember == null)
+            if (MemberCards == null)
             {
                 return NotFound();
             }
 
-            return cardMember;
+            return MemberCards;
         }
 
-        // PUT: api/CardMembers/5
+        // PUT: api/MemberCards/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCardMember(long id, CardMember cardMember)
+        public async Task<IActionResult> PutMemberCards(long id, MemberCard MemberCards)
         {
-            if (id != cardMember.CardMemberId)
+            if (id != MemberCards.MemberCardId)
             {
                 return BadRequest();
             }
 
             // Auto blacklist if not matching the conditions
-            cardMember.IsBlacklist = !DateHelper.IsDateExpired(cardMember.BlacklistEndDate) && !cardMember.IsDeactivated ? false : true; 
-            _context.Entry(cardMember).State = EntityState.Modified;
+            MemberCards.IsBlacklist = !DateHelper.IsDateExpired(MemberCards.BlacklistEndDate) && !MemberCards.IsDeactivated ? false : true; 
+            _context.Entry(MemberCards).State = EntityState.Modified;
 
             try
             {
@@ -64,7 +64,7 @@ namespace NightClubValidator.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CardMemberExists(id))
+                if (!MemberCardsExists(id))
                 {
                     return NotFound();
                 }
@@ -77,54 +77,54 @@ namespace NightClubValidator.Controllers
             return NoContent();
         }
 
-        // POST: api/CardMembers
+        // POST: api/MemberCards
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<CardMember>> PostCardMember(CardMember cardMember)
+        public async Task<ActionResult<MemberCard>> PostMemberCards(MemberCard MemberCards)
         {
             // Part 1 : Get all previous card for same member
-            List<CardMember> cardMemberListWithSameMember = _context.CardMembers.ToList().Where(
+            List<MemberCard> MemberCardsListWithSameMember = _context.MemberCards.ToList().Where(
                 c => 
-                    c.MemberId == cardMember.MemberId 
+                    c.MemberId == MemberCards.MemberId 
                     && !c.IsBlacklist 
                     && !c.IsDeactivated
                 ).ToList();
 
             // Part 2 : Set previous one to deactivated
-            foreach (CardMember cardMemberToDeactivate in cardMemberListWithSameMember)
+            foreach (MemberCard MemberCardsToDeactivate in MemberCardsListWithSameMember)
             {
                 // Deactivate account for old one
-                cardMemberToDeactivate.IsDeactivated = true;
-                _context.Entry(cardMemberToDeactivate).State = EntityState.Modified;
+                MemberCardsToDeactivate.IsDeactivated = true;
+                _context.Entry(MemberCardsToDeactivate).State = EntityState.Modified;
             }
 
             // Part 3 : Add newmember card
-            _context.CardMembers.Add(cardMember);
+            _context.MemberCards.Add(MemberCards);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCardMember", new { id = cardMember.CardMemberId }, cardMember);
+            return CreatedAtAction("GetMemberCards", new { id = MemberCards.MemberCardId }, MemberCards);
         }
 
-        // DELETE: api/CardMembers/5
+        // DELETE: api/MemberCards/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CardMember>> DeleteCardMember(long id)
+        public async Task<ActionResult<MemberCard>> DeleteMemberCards(long id)
         {
-            var cardMember = await _context.CardMembers.FindAsync(id);
-            if (cardMember == null)
+            var MemberCards = await _context.MemberCards.FindAsync(id);
+            if (MemberCards == null)
             {
                 return NotFound();
             }
 
-            _context.CardMembers.Remove(cardMember);
+            _context.MemberCards.Remove(MemberCards);
             await _context.SaveChangesAsync();
 
-            return cardMember;
+            return MemberCards;
         }
 
-        private bool CardMemberExists(long id)
+        private bool MemberCardsExists(long id)
         {
-            return _context.CardMembers.Any(e => e.CardMemberId == id);
+            return _context.MemberCards.Any(e => e.MemberCardId == id);
         }
     }
 }
