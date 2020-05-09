@@ -10,7 +10,7 @@ namespace NightClubValidator.Models
 {
     public class Member
     {
-        public long MemberId { get; set; }
+        public int MemberId { get; set; }
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
         // https://www.twilio.com/blog/validating-phone-numbers-effectively-with-c-and-the-net-frameworks

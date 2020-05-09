@@ -35,17 +35,6 @@ namespace NightClubValidator
             );
         }
 
-        //public NightClubValidatorContext GetContextWithInMemoryDb()
-        //{
-        //    var options = new DbContextOptionsBuilder<NightClubValidatorContext>()
-        //        .UseInMemoryDatabase(Guid.NewGuid().ToString())
-        //        // don't raise the error warning us that the in memory db doesn't support transactions
-        //        .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
-        //        .Options;
-
-        //    return new NightClubValidatorContext(options);
-        //}
-
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

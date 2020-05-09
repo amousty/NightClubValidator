@@ -10,7 +10,7 @@ namespace NightClubValidator.Models
 {
     public class MemberCard
     {
-        public long MemberCardId { get; set; }
+        public int MemberCardId { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreationCardDate { get; set; }
         [DataType(DataType.Date)]
@@ -19,7 +19,7 @@ namespace NightClubValidator.Models
         public bool IsDeactivated { get; set; }
         [DataType(DataType.Date)]
         public DateTime BlacklistEndDate { get; set; }
-        public long MemberId { get; set; }
+        public int MemberId { get; set; }
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
 

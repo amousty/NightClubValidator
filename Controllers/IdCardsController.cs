@@ -29,7 +29,7 @@ namespace NightClubValidator.Controllers
 
         // GET: api/IdCards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IdCard>> GetIdCard(long id)
+        public async Task<ActionResult<IdCard>> GetIdCard(int id)
         {
             var idCard = await _context.IdCards.FindAsync(id);
 
@@ -63,7 +63,7 @@ namespace NightClubValidator.Controllers
 
         // DELETE: api/IdCards/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<IdCard>> DeleteIdCard(long id)
+        public async Task<ActionResult<IdCard>> DeleteIdCard(int id)
         {
             var idCard = await _context.IdCards.FindAsync(id);
             if (idCard == null)

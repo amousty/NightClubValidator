@@ -31,7 +31,7 @@ namespace NightClubValidator.Controllers
 
         // GET: api/MemberCards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<MemberCard>> GetMemberCards(long id)
+        public async Task<ActionResult<MemberCard>> GetMemberCards(int id)
         {
             var MemberCards = await _context.MemberCards.FindAsync(id);
 
@@ -47,7 +47,7 @@ namespace NightClubValidator.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMemberCards(long id, MemberCard MemberCards)
+        public async Task<IActionResult> PutMemberCards(int id, MemberCard MemberCards)
         {
             if (id != MemberCards.MemberCardId)
             {
@@ -55,7 +55,9 @@ namespace NightClubValidator.Controllers
             }
 
             // Auto blacklist if not matching the conditions
+            MemberCards.IsDeactivated = DateHelper.IsDateExpired(MemberCards.ExpiryCardDate) ? true : false;
             MemberCards.IsBlacklist = !DateHelper.IsDateExpired(MemberCards.BlacklistEndDate) && !MemberCards.IsDeactivated ? false : true; 
+            
             _context.Entry(MemberCards).State = EntityState.Modified;
 
             try
@@ -108,21 +110,21 @@ namespace NightClubValidator.Controllers
 
         // DELETE: api/MemberCards/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<MemberCard>> DeleteMemberCards(long id)
+        public async Task<ActionResult<MemberCard>> DeleteMemberCards(int id)
         {
             var MemberCards = await _context.MemberCards.FindAsync(id);
             if (MemberCards == null)
             {
                 return NotFound();
             }
-
+            
             _context.MemberCards.Remove(MemberCards);
             await _context.SaveChangesAsync();
 
             return MemberCards;
         }
 
-        private bool MemberCardsExists(long id)
+        private bool MemberCardsExists(int id)
         {
             return _context.MemberCards.Any(e => e.MemberCardId == id);
         }

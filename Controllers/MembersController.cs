@@ -62,30 +62,49 @@ namespace NightClubValidator.Controllers
 
         // PUT: api/Members/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(long id, Member member)
+        public async Task<IActionResult> PutMember(int id, Member member)
         {
             if (id != member.MemberId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(member).State = EntityState.Modified;
+            IdCardsController idCardsController = new IdCardsController(_context);
+            if (!idCardsController.IdCardExists(member.IdCard.NationalId))
+            {
+                // When a member is modified, it's only the member data. Nor the IdCard or the MemberCard.
+                Member oldMemberData = await _context.Members
+                .Include(i => i.IdCard)
+                .Include(c => c.MemberCards)
+                .Where(c => c.MemberId == id)
+                .FirstOrDefaultAsync(i => i.MemberId == id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MemberExists(id))
+                member.IdCard = oldMemberData.IdCard;
+                member.MemberCards = oldMemberData.MemberCards;
+
+                _context.Entry(member).State = EntityState.Modified;
+
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!MemberExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
             }
+            else
+            {
+                return BadRequest();
+            }
+            
 
             return NoContent();
         }
@@ -129,19 +148,31 @@ namespace NightClubValidator.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Member>> DeleteMember(int id)
         {
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members
+                .Include(i => i.IdCard)
+                .Include(c => c.MemberCards)
+                .Where(c => c.MemberId == id)
+                .FirstOrDefaultAsync(i => i.MemberId == id);
+
             if (member == null)
             {
                 return NotFound();
             }
 
+            // Delete on cascade - also possible via fluent API
+            _context.IdCards.Remove(member.IdCard);
+            foreach (MemberCard memberCardToDelete in member.MemberCards)
+            {
+                _context.MemberCards.Remove(memberCardToDelete);
+            }
+            
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
 
             return member;
         }
 
-        private bool MemberExists(long id)
+        private bool MemberExists(int id)
         {
             return _context.Members.Any(e => e.MemberId == id);
         }

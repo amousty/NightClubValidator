@@ -23,7 +23,7 @@ namespace NightClubValidator.Models
         [DataType(DataType.Date)]
 
         public DateTime ExpiryDate { get; set; }
-        public long MemberId { get; set; }
+        public int MemberId { get; set; }
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
 
