@@ -21,12 +21,12 @@ namespace NightClubValidator.Models
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
 
-        /*public CardMember()
+        public CardMember()
         {
             CreationCardDate = DateTime.Now;
             ExpiryCardDate = DateTime.Now.AddYears(3);
             IsBlacklist = false;
             BlacklistEndDate = DateTime.MinValue;
-        }*/
+        }
     }
 }

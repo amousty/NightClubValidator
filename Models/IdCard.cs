@@ -22,18 +22,6 @@ namespace NightClubValidator.Models
         public long MemberId { get; set; }
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
-        //public long MemberId { get; set; }
-        //public virtual Member Member {get; set;}
-
-        /*public IdCard() { }
-        public IdCard(string nationalId, string name, string firstname, DateTime createdOn)
-        {
-            NationalId = nationalId ?? throw new ArgumentNullException(nameof(nationalId));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Firstname = firstname ?? throw new ArgumentNullException(nameof(firstname));
-            CreatedOn = createdOn;
-            ExpiryDate = new DateTime(createdOn.Year, createdOn.Month, createdOn.Day).AddYears(10);
-        }*/
 
         public int IsValidIdCard()
         {

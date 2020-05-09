@@ -25,7 +25,21 @@ namespace NightClubValidator.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
         {
-            return await _context.Members.ToListAsync();
+            return await 
+                (
+                    from member in _context.Members
+                    join idCard in _context.IdCards on member.MemberId equals idCard.MemberId
+                    join cardMember in _context.CardMembers on member.MemberId equals cardMember.MemberId
+                    select new Member
+                    {
+                        MemberId = member.MemberId,
+                        Mail = member.Mail,
+                        Phone = member.Phone,
+                        Birthdate = member.Birthdate,
+                        IdCard = member.IdCard,
+                        CardMembers = member.CardMembers
+                    }
+                ).ToListAsync();
         }
 
         // GET: api/Members/5
@@ -37,8 +51,6 @@ namespace NightClubValidator.Controllers
                 .Include(c => c.CardMembers)
                 .Where(c => c.MemberId == id)
                 .FirstOrDefaultAsync(i => i.MemberId == id);
-                
-                //await _context.Members.FindAsync(id);
 
             if (member == null)
             {
@@ -46,38 +58,6 @@ namespace NightClubValidator.Controllers
             }
 
             return member;
-        }
-
-        // PUT: api/Members/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMember(int id, Member member)
-        {
-            if (id != member.MemberId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(member).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Members

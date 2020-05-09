@@ -41,38 +41,6 @@ namespace NightClubValidator.Controllers
             return cardMember;
         }
 
-        // PUT: api/CardMembers/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCardMember(long id, CardMember cardMember)
-        {
-            if (id != cardMember.CardMemberId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(cardMember).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CardMemberExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
         // POST: api/CardMembers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
