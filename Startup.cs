@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using NightClubValidator.Models;
+using System;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace NightClubValidator
 {
@@ -21,7 +23,10 @@ namespace NightClubValidator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<NightClubValidatorContext>(opt =>
-               opt.UseInMemoryDatabase("NightClubDatabase"));
+            {
+                opt.UseInMemoryDatabase("NightClubDatabase");
+                opt.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+            });
             services.AddControllers();
 
             // https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
@@ -29,6 +34,18 @@ namespace NightClubValidator
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
         }
+
+        //public NightClubValidatorContext GetContextWithInMemoryDb()
+        //{
+        //    var options = new DbContextOptionsBuilder<NightClubValidatorContext>()
+        //        .UseInMemoryDatabase(Guid.NewGuid().ToString())
+        //        // don't raise the error warning us that the in memory db doesn't support transactions
+        //        .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+        //        .Options;
+
+        //    return new NightClubValidatorContext(options);
+        //}
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

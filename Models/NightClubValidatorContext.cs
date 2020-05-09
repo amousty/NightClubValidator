@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NightClubValidator.Models
 {
@@ -11,6 +12,7 @@ namespace NightClubValidator.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<IdCard>().HasKey(i => i.IdCardId);
         }
 
         public virtual DbSet<IdCard> IdCards { get; set; }

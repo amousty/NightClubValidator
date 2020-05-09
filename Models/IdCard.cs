@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,8 +11,11 @@ namespace NightClubValidator.Models
 {
     public class IdCard
     {
-        public long IdCardId { get; set; }
+        [DatabaseGenerat‌ed(DatabaseGeneratedOp‌​tion.None)]
+        [Remote(action: "IdCardExists", controller: "IdCards")]
+        [Key]
         public string NationalId { get; set; }
+        public int IdCardId { get; set; } // Not the best name :) 
         public string Name { get; set; }
         public string Firstname { get; set; }
         [DataType(DataType.Date)]
@@ -23,23 +27,16 @@ namespace NightClubValidator.Models
         [ForeignKey("MemberId")]
         public virtual Member Member { get; set; }
 
-        public int IsValidIdCard()
+        public bool CardIsValid()
         {
             if (!string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Firstname))
             {
                 if (Regex.IsMatch(NationalId, @"\d{2}.\d{2}.\d{2}-\d{3}-\d{2}"))
                 {
-                    return 200;
-                }
-                else
-                {
-                    return 401;
+                    return true;
                 }
             }
-            else
-            {
-                return 400;
-            }
+            return false;
         }
     }
 }

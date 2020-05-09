@@ -47,12 +47,12 @@ namespace NightClubValidator.Controllers
         [HttpPost]
         public async Task<ActionResult<IdCard>> PostIdCard(IdCard idCard)
         {
-            if (!IdCardExists(idCard.NationalId) && idCard.IsValidIdCard() == 200)
+            if (!IdCardExists(idCard.NationalId) && idCard.CardIsValid())
             {
                 _context.IdCards.Add(idCard);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetIdCard", new { id = idCard.IdCardId }, idCard);
+                return CreatedAtAction("GetIdCard", new { id = idCard.NationalId }, idCard);
             }
             else
             {
@@ -77,12 +77,7 @@ namespace NightClubValidator.Controllers
             return idCard;
         }
 
-        private bool IdCardExists(long id)
-        {
-            return _context.IdCards.Any(e => e.IdCardId == id);
-        }
-
-        private bool IdCardExists(string nationalId)
+        public bool IdCardExists(string nationalId)
         {
             return _context.IdCards.Any(e => e.NationalId == nationalId);
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NightClubValidator.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -27,6 +28,11 @@ namespace NightClubValidator.Models
             ExpiryCardDate = DateTime.Now.AddYears(3);
             IsBlacklist = false;
             BlacklistEndDate = DateTime.MinValue;
+        }
+
+        public bool CardIsValid()
+        {
+            return !IsBlacklist && BlacklistEndDate < DateTime.Now;
         }
     }
 }

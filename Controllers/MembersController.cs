@@ -25,7 +25,7 @@ namespace NightClubValidator.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Member>>> GetMembers()
         {
-            return await 
+            return await
                 (
                     from member in _context.Members
                     join idCard in _context.IdCards on member.MemberId equals idCard.MemberId
@@ -69,26 +69,15 @@ namespace NightClubValidator.Controllers
             try
             {
                 int memberStatus = member.IsValidUser();
-                //int idCardStatus = member.IdCard.IsValidIdCard();
-                if (memberStatus == 200)
+                IdCard idCard = member.IdCard;
+                if (memberStatus == 200 &&  idCard.CardIsValid())
                 {
-                    
-
-                    // Members
-                    _context.Members.Add(member);
-                    await _context.SaveChangesAsync();
-
-                    /*
-                     // We need to ensure that eveyrthing is ok before save -> transactional
-                   // Members card
-                    foreach (CardMembers cardMember in member.CardMembers)
+                    IdCardsController idCardsController = new IdCardsController(_context);
+                    if (!idCardsController.IdCardExists(member.IdCard.NationalId))
                     {
-                        await cardMembersController.PostCardMember();
+                        _context.Members.Add(member);
+                        await _context.SaveChangesAsync();
                     }
-
-                    // ID card
-                    await idCardsController.PostIdCard(member.IdCards);
-                     */
 
                     return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
                 }
@@ -96,13 +85,14 @@ namespace NightClubValidator.Controllers
                 {
                     return NotFound();
                 }
+
             }
             catch (Exception)
-            { 
+            {
                 throw;
             }
-            
-            
+
+
         }
 
         // DELETE: api/Members/5
