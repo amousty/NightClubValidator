@@ -46,4 +46,4 @@ Développement d’une WEB API (.NET ou .NET Core) d’une gestion de cartes de membr
 9. Github.
 
 # Diagramme de classe
-![ClassDiagram NightCLubValidator](https://ibb.co/D5ThXGC)
+![ClassDiagram NightCLubValidator](https://zupimages.net/up/20/19/ym5n.png)
