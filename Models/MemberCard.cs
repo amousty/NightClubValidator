@@ -1,4 +1,5 @@
 ﻿using NightClubValidator.Helper;
+using NightClubValidator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NightClubValidator.Models
 {
-    public class MemberCard
+    public class MemberCard : ICard
     {
         public int MemberCardId { get; set; }
         [DataType(DataType.Date)]

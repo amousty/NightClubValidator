@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NightClubValidator.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NightClubValidator.Models
 {
-    public class IdCard
+    public class IdCard : ICard
     {
         [DatabaseGenerat‌ed(DatabaseGeneratedOp‌​tion.None)]
         [Remote(action: "IdCardExists", controller: "IdCards")]
