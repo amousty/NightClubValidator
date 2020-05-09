@@ -11,16 +11,18 @@ namespace NightClubValidator.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //// Foreign key with id card
+            // Foreign key with id card
             //modelBuilder.Entity<Member>()
             //    .HasOne(m => m.IdCard)
-            //    .WithOne()
-            //    .OnDelete(DeleteBehavior.Cascade);
+            //    .WithOne(i => i.Member)
+            //    .HasForeignKey(m => m.idcar)
+            //.OnDelete(DeleteBehavior.Cascade);
 
-            //// Foreign key with card members
+            //Foreign key with card members
             //modelBuilder.Entity<Member>()
-            //    .HasMany(m => m.CardMembers)
-            //    .WithOne()
+            //    .HasOne(m => m.CardMembers)
+            //    .WithMany(c => c.id)
+            //    .HasForeignKey(m => m.IdCardMemberId);
             //    .OnDelete(DeleteBehavior.Cascade);
         }
 

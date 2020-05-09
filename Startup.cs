@@ -23,6 +23,11 @@ namespace NightClubValidator
             services.AddDbContext<NightClubValidatorContext>(opt =>
                opt.UseInMemoryDatabase("NightClubDatabase"));
             services.AddControllers();
+
+            // https://stackoverflow.com/questions/59199593/net-core-3-0-possible-object-cycle-was-detected-which-is-not-supported
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -32,7 +32,13 @@ namespace NightClubValidator.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> GetMember(int id)
         {
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members
+                .Include(i => i.IdCard)
+                .Include(c => c.CardMembers)
+                .Where(c => c.MemberId == id)
+                .FirstOrDefaultAsync(i => i.MemberId == id);
+                
+                //await _context.Members.FindAsync(id);
 
             if (member == null)
             {
@@ -48,7 +54,7 @@ namespace NightClubValidator.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMember(int id, Member member)
         {
-            if (id != member.Id)
+            if (id != member.MemberId)
             {
                 return BadRequest();
             }
@@ -80,13 +86,11 @@ namespace NightClubValidator.Controllers
         [HttpPost]
         public async Task<ActionResult<Member>> PostMember(Member member)
         {
-            CardMembersController cardMembersController = new CardMembersController(_context);
-            IdCardsController idCardsController = new IdCardsController(_context);
             try
             {
                 int memberStatus = member.IsValidUser();
-                int idCardStatus = member.IdCard.IsValidIdCard();
-                if (memberStatus == 200 && idCardStatus == 200)
+                //int idCardStatus = member.IdCard.IsValidIdCard();
+                if (memberStatus == 200)
                 {
                     
 
@@ -106,7 +110,7 @@ namespace NightClubValidator.Controllers
                     await idCardsController.PostIdCard(member.IdCards);
                      */
 
-                    return await Task.FromResult(member); // ("GetMember", new { id = member.Id }, member);
+                    return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
                 }
                 else
                 {
@@ -139,7 +143,7 @@ namespace NightClubValidator.Controllers
 
         private bool MemberExists(int id)
         {
-            return _context.Members.Any(e => e.Id == id);
+            return _context.Members.Any(e => e.MemberId == id);
         }
     }
 }

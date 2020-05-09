@@ -47,7 +47,7 @@ namespace NightClubValidator.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutIdCard(long id, IdCard idCard)
         {
-            if (id != idCard.Id)
+            if (id != idCard.IdCardId)
             {
                 return BadRequest();
             }
@@ -84,7 +84,7 @@ namespace NightClubValidator.Controllers
                 _context.IdCards.Add(idCard);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetIdCard", new { id = idCard.Id }, idCard);
+                return CreatedAtAction("GetIdCard", new { id = idCard.IdCardId }, idCard);
             }
             else
             {
@@ -111,7 +111,7 @@ namespace NightClubValidator.Controllers
 
         private bool IdCardExists(long id)
         {
-            return _context.IdCards.Any(e => e.Id == id);
+            return _context.IdCards.Any(e => e.IdCardId == id);
         }
 
         private bool IdCardExists(string nationalId)

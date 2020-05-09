@@ -47,7 +47,7 @@ namespace NightClubValidator.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCardMember(long id, CardMember cardMember)
         {
-            if (id != cardMember.Id)
+            if (id != cardMember.CardMemberId)
             {
                 return BadRequest();
             }
@@ -79,10 +79,11 @@ namespace NightClubValidator.Controllers
         [HttpPost]
         public async Task<ActionResult<CardMember>> PostCardMember(CardMember cardMember)
         {
+             
             _context.CardMembers.Add(cardMember);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCardMember", new { id = cardMember.Id }, cardMember);
+            return CreatedAtAction("GetCardMember", new { id = cardMember.CardMemberId }, cardMember);
         }
 
         // DELETE: api/CardMembers/5
@@ -103,7 +104,7 @@ namespace NightClubValidator.Controllers
 
         private bool CardMemberExists(long id)
         {
-            return _context.CardMembers.Any(e => e.Id == id);
+            return _context.CardMembers.Any(e => e.CardMemberId == id);
         }
     }
 }
