@@ -7,6 +7,6 @@ namespace NightClubValidator.Helper
 {
     public static class DateHelper
     {
-        public static bool IsDateExpired(DateTime cardDate) => DateTime.Now.Subtract(cardDate).TotalMilliseconds < 0;
+        public static bool IsDateExpired(DateTime date) => DateTime.Now.Subtract(date).TotalMilliseconds >= 0;
     }
 }

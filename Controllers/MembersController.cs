@@ -60,6 +60,36 @@ namespace NightClubValidator.Controllers
             return member;
         }
 
+        // PUT: api/Members/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMember(long id, Member member)
+        {
+            if (id != member.MemberId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(member).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MemberExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Members
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -111,7 +141,7 @@ namespace NightClubValidator.Controllers
             return member;
         }
 
-        private bool MemberExists(int id)
+        private bool MemberExists(long id)
         {
             return _context.Members.Any(e => e.MemberId == id);
         }

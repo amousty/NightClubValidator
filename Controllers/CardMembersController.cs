@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +54,8 @@ namespace NightClubValidator.Controllers
                 return BadRequest();
             }
 
-            cardMember.IsBlacklist = !DateHelper.IsDateExpired(cardMember.BlacklistEndDate) && DateHelper.IsDateExpired(cardMember.ExpiryCardDate) ? false : true; 
+            // Auto blacklist if not matching the conditions
+            cardMember.IsBlacklist = !DateHelper.IsDateExpired(cardMember.BlacklistEndDate) && !cardMember.IsDeactivated ? false : true; 
             _context.Entry(cardMember).State = EntityState.Modified;
 
             try
@@ -81,7 +83,23 @@ namespace NightClubValidator.Controllers
         [HttpPost]
         public async Task<ActionResult<CardMember>> PostCardMember(CardMember cardMember)
         {
+            // Part 1 : Get all previous card for same member
+            List<CardMember> cardMemberListWithSameMember = _context.CardMembers.ToList().Where(
+                c => 
+                    c.MemberId == cardMember.MemberId 
+                    && !c.IsBlacklist 
+                    && !c.IsDeactivated
+                ).ToList();
 
+            // Part 2 : Set previous one to deactivated
+            foreach (CardMember cardMemberToDeactivate in cardMemberListWithSameMember)
+            {
+                // Deactivate account for old one
+                cardMemberToDeactivate.IsDeactivated = true;
+                _context.Entry(cardMemberToDeactivate).State = EntityState.Modified;
+            }
+
+            // Part 3 : Add newmember card
             _context.CardMembers.Add(cardMember);
             await _context.SaveChangesAsync();
 

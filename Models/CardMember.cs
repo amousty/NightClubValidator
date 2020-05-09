@@ -16,6 +16,7 @@ namespace NightClubValidator.Models
         [DataType(DataType.Date)]
         public DateTime ExpiryCardDate { get; set; }
         public bool IsBlacklist { get; set; }
+        public bool IsDeactivated { get; set; }
         [DataType(DataType.Date)]
         public DateTime BlacklistEndDate { get; set; }
         public long MemberId { get; set; }
@@ -28,6 +29,7 @@ namespace NightClubValidator.Models
             ExpiryCardDate = DateTime.Now.AddYears(3);
             IsBlacklist = false;
             BlacklistEndDate = DateTime.MinValue;
+            IsDeactivated = DateHelper.IsDateExpired(ExpiryCardDate);
         }
 
         public bool CardIsValid()
