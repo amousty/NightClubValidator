@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using NightClubValidator.Models;
 using System;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using NightClubValidator.Middleware;
 
 namespace NightClubValidator
 {
@@ -24,6 +25,10 @@ namespace NightClubValidator
         {
             services.AddDbContext<NightClubValidatorContext>(opt =>
             {
+                /*
+                 * To use an existing database, we shouldn,'t use "InMemory", but UseSQLServer. 
+                 * https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-strings
+                */
                 opt.UseInMemoryDatabase("NightClubDatabase");
                 opt.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
@@ -49,6 +54,8 @@ namespace NightClubValidator
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // https://stackoverflow.com/questions/38630076/asp-net-core-web-api-exception-handling
 
             app.UseEndpoints(endpoints =>
             {

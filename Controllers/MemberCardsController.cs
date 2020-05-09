@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
@@ -64,7 +65,7 @@ namespace NightClubValidator.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException)
             {
                 if (!MemberCardsExists(id))
                 {
@@ -101,7 +102,7 @@ namespace NightClubValidator.Controllers
                 _context.Entry(MemberCardsToDeactivate).State = EntityState.Modified;
             }
 
-            // Part 3 : Add newmember card
+            // Part 3 : Add new member card
             _context.MemberCards.Add(MemberCards);
             await _context.SaveChangesAsync();
 
@@ -120,7 +121,6 @@ namespace NightClubValidator.Controllers
             
             _context.MemberCards.Remove(MemberCards);
             await _context.SaveChangesAsync();
-
             return MemberCards;
         }
 

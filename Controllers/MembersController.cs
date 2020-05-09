@@ -72,7 +72,7 @@ namespace NightClubValidator.Controllers
             IdCardsController idCardsController = new IdCardsController(_context);
             if (!idCardsController.IdCardExists(member.IdCard.NationalId))
             {
-                // When a member is modified, it's only the member data. Nor the IdCard or the MemberCard.
+                // When a member is modified, it's only the member data. Nor the IdCard or the MemberCard. -> could be made different but develop choice
                 Member oldMemberData = await _context.Members
                 .Include(i => i.IdCard)
                 .Include(c => c.MemberCards)
@@ -102,7 +102,7 @@ namespace NightClubValidator.Controllers
             }
             else
             {
-                return BadRequest();
+                return StatusCode(406, "National ID already exist within the database. Operation aborted. ");
             }
             
 
@@ -117,22 +117,28 @@ namespace NightClubValidator.Controllers
         {
             try
             {
-                int memberStatus = member.IsValidUser();
                 IdCard idCard = member.IdCard;
-                if (memberStatus == 200 &&  idCard.CardIsValid())
+                // Ensure data are correct
+                if (member.IsValidUser() &&  idCard.CardIsValid())
                 {
                     IdCardsController idCardsController = new IdCardsController(_context);
                     if (!idCardsController.IdCardExists(member.IdCard.NationalId))
                     {
                         _context.Members.Add(member);
                         await _context.SaveChangesAsync();
+
+                        return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+                    }
+                    else
+                    {
+                        return StatusCode(406, "National ID already exist within the database. Operation aborted. ");
                     }
 
-                    return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
+                    
                 }
                 else
                 {
-                    return NotFound();
+                    return StatusCode(406, "Data aren't valid. Please check it.");
                 }
 
             }
@@ -140,14 +146,13 @@ namespace NightClubValidator.Controllers
             {
                 throw;
             }
-
-
         }
 
         // DELETE: api/Members/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Member>> DeleteMember(int id)
         {
+            // We need the whole member data (IdCard and membercard included)
             var member = await _context.Members
                 .Include(i => i.IdCard)
                 .Include(c => c.MemberCards)

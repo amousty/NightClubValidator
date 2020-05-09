@@ -38,23 +38,16 @@ namespace NightClubValidator.Models
             return age;
         }
 
-        public int IsValidUser()
+        public bool IsValidUser()
         {
             if (!string.IsNullOrEmpty(EmailAddress) || !string.IsNullOrEmpty(PhoneNumber))
             {
                 if (GetAge() < 120 && GetAge() >= 18)
                 {
-                    return 200;
-                }
-                else
-                {
-                    return 402;
+                    return true;
                 }
             }
-            else
-            {
-                return 403;
-            }
+            return false;
         }
     }
 }

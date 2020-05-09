@@ -56,7 +56,7 @@ namespace NightClubValidator.Controllers
             }
             else
             {
-                return NotFound();
+                return StatusCode(406, "Data aren't valid. Please check it.");
             }
             
         }
