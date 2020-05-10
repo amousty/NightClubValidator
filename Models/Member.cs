@@ -1,9 +1,12 @@
-﻿using System;
+﻿using NightClubValidator.Helper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace NightClubValidator.Models
@@ -40,7 +43,10 @@ namespace NightClubValidator.Models
 
         public bool IsValidUser()
         {
-            if (!string.IsNullOrEmpty(EmailAddress) || !string.IsNullOrEmpty(PhoneNumber))
+            string validMail = string.IsNullOrEmpty(EmailAddress) ? "empty" : TypeHelper.IsMailAddress(EmailAddress) ? "ok" : "nok";
+            string validPhone = string.IsNullOrEmpty(PhoneNumber) ? "empty" : TypeHelper.IsPhoneNumber(PhoneNumber) ? "ok" : "nok";
+            // Phone or mail could be empty, but they have to be correct if entered
+            if ((validMail != "nok" && validPhone != "nok") && (validMail == "ok" || validPhone == "ok"))
             {
                 if (GetAge() < 120 && GetAge() >= 18)
                 {

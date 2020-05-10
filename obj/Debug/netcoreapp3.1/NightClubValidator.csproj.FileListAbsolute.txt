@@ -154,3 +154,4 @@ C:\Users\PC\source\repos\NightClubValidator\bin\Debug\netcoreapp3.1\Microsoft.As
 C:\Users\PC\source\repos\NightClubValidator\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\PC\source\repos\NightClubValidator\obj\Debug\netcoreapp3.1\NightClubValidator.csproj.CoreCompileInputs.cache
 C:\Users\PC\source\repos\NightClubValidator\obj\Debug\netcoreapp3.1\NightClubValidator.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\PC\source\repos\NightClubValidator\bin\Debug\netcoreapp3.1\NightClub.postman_collection.json

@@ -16,18 +16,18 @@ Développement d’une WEB API (.NET ou .NET Core) d’une gestion de cartes de membr
 
 ## Contrainte business
 1. La création d'un membre nécessite :
-	- une adresse email OU un numéro de téléphone
+	- une adresse email OU un numéro de téléphone (Ici le membre peut décider d'entrer soit un numéro de téléphone, soit une adresse mail, soit les deux.)
 	- Une carte d'identité VALIDE.
 2. Une carte de membre est seulement constituée d'un identifiant unique (qui provient, par ex, d'un QRCode).
 3. La personne doit avoir > 18 ans.
 4. Une carte d'identité est constituée d'informations suivantes :
 	- Nom
 	- Prénom
-	- Date de naissance
+	- Date de naissance (yyyy-MM-dd)
 	- Numéro de registre national au format xxx.xx.xx-xxx-xx
 	> Le format utilisé dans cette API est xx.xx.xx-xxx-xx
-	- Date de validité
-	- Date d'expiration
+	- Date de validité (yyyy-MM-dd)
+	- Date d'expiration (yyyy-MM-dd)
 	- Numéro de carte
 5. Une carte d'identité est unique dans le système.
 6. Un membre peut s'enregistrer plusieurs fois avec des cartes de membres différentes.
@@ -47,3 +47,6 @@ Développement d’une WEB API (.NET ou .NET Core) d’une gestion de cartes de membr
 
 # Diagramme de classe
 ![ClassDiagram NightCLubValidator](https://zupimages.net/up/20/19/ym5n.png)
+
+# Testing
+Les appels ont étés faits via POSTMAN. La configuration se trouve dans le document **NightClub.Postman_collection.json**

@@ -97,7 +97,6 @@ namespace NightClubValidator.Controllers
                             throw;
                         }
                     }
-
                     return CreatedAtAction("GetMember", new { id = member.MemberId }, member);
                 }
                 else
@@ -107,7 +106,7 @@ namespace NightClubValidator.Controllers
             }
             else
             {
-                return StatusCode(406, "Email address and/or phone number incorrect.");
+                return StatusCode(406, "Incorrect data.");
             }
         }
 

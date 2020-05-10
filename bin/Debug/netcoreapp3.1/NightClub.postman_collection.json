@@ -1,0 +1,666 @@
+{
+	"info": {
+		"_postman_id": "cd1df732-cd66-4194-99a3-94e3643fc5e6",
+		"name": "NightClub",
+		"description": "https://github.com/amousty/NightClubValidator\nhttps://www.c-sharpcorner.com/article/how-to-use-postman-with-asp-net-core-web-api-testing/ (testing)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Member",
+			"item": [
+				{
+					"name": "AddMember1_Good",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"bigorneauAdrien@hotmail.com\",\n\t\"phoneNumber\" : \"0497291255\",\n\t\"birthdate\" : \"1991-11-15\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"15.11.91-123-11\",\n\t\t\"name\" : \"Bigorneau\",\n\t\t\"firstName\" : \"Adrien\", \n\t\t\"createdOn\" : \"2015-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember2_Good",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"jeanluc@hotmail.com\",\n\t\"phoneNumber\" : \"0497291012\",\n\t\"birthdate\" : \"1973-12-15\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"15.12.73-123-12\",\n\t\t\"name\" : \"Luc\",\n\t\t\"firstName\" : \"Jean\", \n\t\t\"createdOn\" : \"2019-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember3_Good",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"\",\n\t\"phoneNumber\" : \"0497564512\",\n\t\"birthdate\" : \"2000-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.00-123-12\",\n\t\t\"name\" : \"Jeanne\",\n\t\t\"firstName\" : \"Dupont\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMember3",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"memberId\" : 2,\n\t\"emailAddress\" : \"mostyadrien@hotmail.com\",\n\t\"phoneNumber\" : \"0478122346\",\n\t\"birthdate\" : \"2000-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.00-123-12\",\n\t\t\"name\" : \"Jeanne\",\n\t\t\"firstName\" : \"Dupont\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members",
+								"2"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember4_Under18",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"\",\n\t\"phoneNumber\" : \"0478122344\",\n\t\"birthdate\" : \"2010-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.10-123-12\",\n\t\t\"name\" : \"Bambi\",\n\t\t\"firstName\" : \"Anthony\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember4_Over120",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"\",\n\t\"phoneNumber\" : \"0478122344\",\n\t\"birthdate\" : \"1811-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.11-123-12\",\n\t\t\"name\" : \"Bambi\",\n\t\t\"firstName\" : \"Anthony\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember5_SameID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"julieniencli@hotmail.com\",\n\t\"phoneNumber\" : \"0478122345\",\n\t\"birthdate\" : \"2000-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.00-123-12\",\n\t\t\"name\" : \"Iencli\",\n\t\t\"firstName\" : \"Julien\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember5_IncorrectPhone",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"julieniencli@hotmail.com\",\n\t\"phoneNumber\" : \"0497291015\",\n\t\"birthdate\" : \"1970-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.74-123-12\",\n\t\t\"name\" : \"Iencli\",\n\t\t\"firstName\" : \"Julien\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember5_IncorrectMail",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"julienienclihotmail.com\",\n\t\"phoneNumber\" : \"0497284555\",\n\t\"birthdate\" : \"1945-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.45-123-12\",\n\t\t\"name\" : \"Iencli\",\n\t\t\"firstName\" : \"Julien\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMembers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMember",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members",
+								"3"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMember1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"moustyadrien@hotmail.com\",\n\t\"phoneNumber\" : \"0497291012\",\n\t\"birthdate\" : \"1992-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.92-123-12\",\n\t\t\"name\" : \"Mousty\",\n\t\t\"firstName\" : \"Adrien\", \n\t\t\"createdOn\" : \"2015-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members",
+								"1"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "IdCard",
+			"item": [
+				{
+					"name": "GetIDCard",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/IdCards",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"IdCards"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateIdCard1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nationalId\": \"15.12.73-123-12\",\n    \"idCardId\": 1,\n    \"name\": \"Moustie\",\n    \"firstName\": \"Adrien\",\n    \"createdOn\": \"2015-05-08T00:00:00\",\n    \"expiryDate\": \"2018-05-08T00:00:00\",\n    \"memberId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/IdCards/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"IdCards",
+								"1"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteIdCard_1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/IdCards/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"IdCards",
+								"1"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "MemberCards",
+			"item": [
+				{
+					"name": "AddMemberCard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"memberId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/MemberCards/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"MemberCards",
+								""
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateMemberCard",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cardMemberId\": 1,\r\n    \"creationCardDate\": \"2020-05-09T10:31:54.747907+02:00\",\r\n    \"expiryCardDate\": \"2023-05-09T10:31:54.7479181+02:00\",\r\n    \"isBlacklist\": false,\r\n    \"blacklistEndDate\": \"2021-01-01T00:00:00\",\r\n    \"memberId\" : 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/MemberCards/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"MemberCards",
+								"1"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMemberCard",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cardMembers\": [\r\n        {\r\n            \"creationCardDate\": \"2020-05-09T10:31:54.747907+02:00\",\r\n            \"expiryCardDate\": \"2023-05-09T10:31:54.7479181+02:00\",\r\n            \"isBlacklist\": false,\r\n            \"blacklistEndDate\": \"2021-01-01T00:00:00\",\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/MemberCards/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"MemberCards",
+								"3"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMemberCard",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cardMembers\": [\r\n        {\r\n            \"creationCardDate\": \"2020-05-09T10:31:54.747907+02:00\",\r\n            \"expiryCardDate\": \"2023-05-09T10:31:54.7479181+02:00\",\r\n            \"isBlacklist\": false,\r\n            \"blacklistEndDate\": \"2021-01-01T00:00:00\",\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/MemberCards",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"MemberCards"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMemberCard_1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"cardMembers\": [\r\n        {\r\n            \"creationCardDate\": \"2020-05-09T10:31:54.747907+02:00\",\r\n            \"expiryCardDate\": \"2023-05-09T10:31:54.7479181+02:00\",\r\n            \"isBlacklist\": false,\r\n            \"blacklistEndDate\": \"2021-01-01T00:00:00\",\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/MemberCards/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"MemberCards",
+								"3"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f7e1208d-d07a-4250-b68b-f5582ac3a04c",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "b8a215da-d074-407c-b84e-bd9ed6b7bd10",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
