@@ -131,7 +131,7 @@
 					"response": []
 				},
 				{
-					"name": "AddMember4_Under18",
+					"name": "AddMember_Under18_NOK",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -161,7 +161,7 @@
 					"response": []
 				},
 				{
-					"name": "AddMember4_Over120",
+					"name": "AddMemberOver120_NOK",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -191,7 +191,7 @@
 					"response": []
 				},
 				{
-					"name": "AddMember5_SameID",
+					"name": "AddMember_SameID_NOK",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -221,7 +221,7 @@
 					"response": []
 				},
 				{
-					"name": "AddMember5_IncorrectPhone",
+					"name": "AddMember_IncorrectPhone_NOK",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -251,13 +251,43 @@
 					"response": []
 				},
 				{
-					"name": "AddMember5_IncorrectMail",
+					"name": "AddMember_IncorrectMail_NOK",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n\t\"emailAddress\" : \"julienienclihotmail.com\",\n\t\"phoneNumber\" : \"0497284555\",\n\t\"birthdate\" : \"1945-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.45-123-12\",\n\t\t\"name\" : \"Iencli\",\n\t\t\"firstName\" : \"Julien\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44344/api/Members",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44344",
+							"path": [
+								"api",
+								"Members"
+							]
+						},
+						"description": "Add a member"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMember_SamePhoneThan3_NOK",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"emailAddress\" : \"toto@hotmail.com\",\n\t\"phoneNumber\" : \"0497564512\",\n\t\"birthdate\" : \"2000-12-16\",\n\t\"idCard\" : {\n\t\t\"nationalId\" : \"16.12.85-123-12\",\n\t\t\"name\" : \"Jeanne\",\n\t\t\"firstName\" : \"Dupont\", \n\t\t\"createdOn\" : \"2010-05-08\",\n\t\t\"expiryDate\": \"2025-05-08\"\n\t},\n\t\"MemberCards\" : [{}]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
